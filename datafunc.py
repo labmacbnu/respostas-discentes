@@ -11,8 +11,22 @@ def load_data(sheets_url):
     return pd.read_csv(csv_url)
 
 @st.cache_data
-def get_df()-> pd.DataFrame:
+def dados_df()-> pd.DataFrame:
     return load_data(st.secrets["respostas_url"])
+
+
+@st.cache_data
+def escolas_df()-> pd.DataFrame:
+    df = load_data(st.secrets["escolas_geoloc"])
+    t2num = lambda x: float(x.replace(',','.'))
+    df.dropna(subset="lat", inplace=True)
+    df.loc[:,['lat', 'long']] = df[['lat', 'long']].applymap(t2num)
+    return df
+
+
+@st.cache_data
+def cidades_df()-> pd.DataFrame:
+    return load_data(st.secrets["cidades"])
 
 @st.cache_data
 def geojson() -> dict:
@@ -20,9 +34,4 @@ def geojson() -> dict:
     BOUNDARIES = pedido.json()
     return BOUNDARIES
 
-
-@st.cache_data
-def cidades_geoloc() -> dict:
-    with open("cidades-geoloc.json") as fp:
-        dados = json.load(fp)
-    return dados
+ 
