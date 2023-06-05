@@ -3,12 +3,12 @@ import json
 import pandas as pd
 import plotly.express as px
 import requests
-from datafunc import get_df
+from datafunc import dados_df
 
 
 
 if __name__ == "__main__":
-    df = get_df()  
+    df = dados_df()  
     n_cidades = len(df.cidade.unique())-1
     n_escolas = len(df.colegio.unique())-2
     f"""# Respostas Discentes
