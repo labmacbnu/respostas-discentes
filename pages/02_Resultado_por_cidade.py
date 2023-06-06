@@ -81,7 +81,24 @@ Foram coletadas {df.shape[0]} respostas, de {n_escolas} escolas diferentes da ci
         agg_cursos.columns = ["Curso", "Interessados"]
         st.dataframe(agg_cursos)
 
-        
+        "## Não interessados"
+        "Qual o motivo que leva os estudantes a não pretender fazer faculdade. Cada estudante poderia apresentar\
+            mais do que um motivo"
+
+        nao_interessados = df.query("interesse == 'Não'")
+        from collections import Counter
+
+
+        MOTIVACAO = []
+        for n, x in nao_interessados.iterrows():
+            if isinstance(x.motivos,str): 
+                motivos = [y.strip(" ") for y in x.motivos.split(",") ]
+            MOTIVACAO.extend(motivos)
+
+        motivos = dict(Counter(MOTIVACAO))
+        motivacao_df = pd.DataFrame({'motivo': motivos.keys(), 'quantidade': motivos.values()})
+        st.dataframe(motivacao_df)
+
 
         
         

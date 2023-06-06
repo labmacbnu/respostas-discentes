@@ -8,7 +8,7 @@ from datafunc import dados_df
 
 
 if __name__ == "__main__":
-    df = dados_df()  
+    df = dados_df()
     n_cidades = len(df.cidade.unique())-1
     n_escolas = len(df.colegio.unique())-2
     f"""# Respostas Discentes
@@ -43,6 +43,10 @@ Foram coletadas {df.shape[0]} respostas, de {n_escolas} escolas diferentes, abra
         fig = px.bar(interessados.groupby("curso").agg({"interesse": 'count'}).sort_values(by='interesse', ascending=False).head(n=10).reset_index(),
              x='curso', y='interesse')
         st.plotly_chart(fig, use_container_width=True)   
+
+        
+
+
     with tab_tabelas: 
         st.caption("Clique nas colunas da tabela para ordenar os dados")
         "## Interesse em fazer faculdade"
@@ -74,5 +78,24 @@ Foram coletadas {df.shape[0]} respostas, de {n_escolas} escolas diferentes, abra
         agg_cursos = sub_cursos.groupby("curso").agg({"stamp": "count"}).reset_index()
         agg_cursos.columns = ["Curso", "Interessados"]
         st.dataframe(agg_cursos)
+
+        "## Não interessados"
+        "Qual o motivo que leva os estudantes a não pretender fazer faculdade. Cada estudante poderia apresentar\
+            mais do que um motivo"
+
+        nao_interessados = df.query("interesse == 'Não'")
+        from collections import Counter
+
+
+        MOTIVACAO = []
+        for n, x in nao_interessados.iterrows():
+            if isinstance(x.motivos,str): 
+                motivos = [y.strip(" ") for y in x.motivos.split(",") ]
+            MOTIVACAO.extend(motivos)
+
+        motivos = dict(Counter(MOTIVACAO))
+        motivacao_df = pd.DataFrame({'motivo': motivos.keys(), 'quantidade': motivos.values()})
+        st.dataframe(motivacao_df)
+
 
 
