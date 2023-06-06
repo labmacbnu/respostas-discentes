@@ -17,7 +17,7 @@ def dados_df()-> pd.DataFrame:
 
 @st.cache_data
 def escolas_df()-> pd.DataFrame:
-    df = load_data(st.secrets["escolas_geoloc"])
+    df = load_data(st.secrets["escolas_geoloc"]) 
     t2num = lambda x: float(x.replace(',','.'))
     df.dropna(subset="lat", inplace=True)
     df.loc[:,['lat', 'long']] = df[['lat', 'long']].applymap(t2num)
