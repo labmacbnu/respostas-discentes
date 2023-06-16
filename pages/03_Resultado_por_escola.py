@@ -95,7 +95,7 @@ Foram coletadas {df.shape[0]} respostas da {escola}."""
         for n, x in nao_interessados.iterrows():
             if isinstance(x.motivos,str): 
                 motivos = [y.strip(" ") for y in x.motivos.split(",") ]
-            MOTIVACAO.extend(motivos)
+                MOTIVACAO.extend(motivos)
 
         motivos = dict(Counter(MOTIVACAO))
         motivacao_df = pd.DataFrame({'motivo': motivos.keys(), 'quantidade': motivos.values()})
