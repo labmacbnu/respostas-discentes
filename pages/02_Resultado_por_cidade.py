@@ -16,7 +16,8 @@ if __name__ == "__main__":
     escolas_geoloc_df = pd.merge(df, escolas_geoloc, left_on='colegio', right_on='escola')
     escolas_geoloc_df = escolas_geoloc_df.groupby(["cidade_escola","escola"]).agg({"stamp": "count", "lat": "mean", "long": "mean"}).reset_index() 
  
-    n_escolas = len(df.colegio.unique())
+    exclude_escolas = ['Formado', 'N/D']
+    n_escolas = len([x for x in df.colegio.unique() if x not in exclude_escolas] )
     f"""# Respostas Discentes
 
 Foram coletadas {df.shape[0]} respostas, de {n_escolas} escolas diferentes da cidade de {cidade}"""
