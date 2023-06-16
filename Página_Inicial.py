@@ -10,7 +10,9 @@ from datafunc import dados_df
 if __name__ == "__main__":
     df = dados_df()
     n_cidades = len(df.cidade.unique())-1
-    n_escolas = len(df.colegio.unique())-2
+    todas_escolas = list(df.colegio.unique())
+    exclude_escolas = ['Formado', 'N/D']
+    n_escolas = len([x for x in todas_escolas if x not in exclude_escolas])
     f"""# Respostas Discentes
 
 Foram coletadas {df.shape[0]} respostas, de {n_escolas} escolas diferentes, abrangendo {n_cidades} cidades."""
